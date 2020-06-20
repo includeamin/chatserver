@@ -29,7 +29,7 @@ app.get('/key', (req, res) => {
     res.send({"key": client_key})
 })
 
-const server = app.listen(9002, "0.0.0.0");
+const server = app.listen(9002, "::");
 
 const peerServer = ExpressPeerServer(server, config);
 
