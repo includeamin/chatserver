@@ -5,7 +5,7 @@ class ChatNameSpace(AsyncNamespace):
     def on_connect(self, environ, *args, **kwargs):
         pass
 
-    def on_disconnect(self):
+    def on_disconnect(self, environ, *args, **kwargs):
         pass
 
     def on_message(self):
