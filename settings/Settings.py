@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
 class DATABASE(BaseSettings):
     DATABASE_URL: str = 'mongodb://localhost:27017'
+    DATABASE_NAME: str = 'chat_server'
     REDIS_URL: str = 'redis://'
     REDIS_HOST: str = 'localhost'
     REDIS_PORT: str = 6379
@@ -17,5 +18,11 @@ class DATABASE(BaseSettings):
     SIGNALING_COLLECTION: str = 'signaling'
 
 
+class EventNames(BaseSettings):
+    SERVER_RESPONSE: str = "SERVER_RESPONSE"
+    DIRECT_MESSAGE: str = "DIRECT_MESSAGE"
+
+
 database_settings = DATABASE()
 global_settings = Settings()
+events_names = EventNames()

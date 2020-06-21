@@ -16,3 +16,16 @@ class MessagePacket(BaseModel):
     token: str
     packet_type: str
     content: DirectMessagePacket
+
+
+class DirectMessageEmitModel(BaseModel):
+    sender: str
+    packet_type: str
+    content: DirectMessagePacket
+
+
+class PacketTypes(BaseModel):
+    direct_message: str = "direct_message"
+
+
+packets_types = PacketTypes()
