@@ -9,6 +9,8 @@ class Settings(BaseSettings):
 class DATABASE(BaseSettings):
     DATABASE_URL: str = 'mongodb://localhost:27017'
     REDIS_URL: str = 'redis://'
+    REDIS_HOST: str = 'localhost'
+    REDIS_PORT: str = 6379
     GROUPS_CHAT_COLLECTION: str = 'groups'
     DIRECT_CHAT_COLLECTION: str = 'directs'
     CHANNEL_CHAT_COLLECTION: str = 'channels'
