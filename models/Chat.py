@@ -50,7 +50,7 @@ class DirectMessagePacket(BaseModel):
     message: MessageInPacketModel
 
 
-class MessagePacket(BaseModel):
-    token: str
-    packet_type: str
-    content: DirectMessagePacket
+# class MessagePacket(BaseModel):
+#     token: str
+#     packet_type: str
+#     content: DirectMessagePacket
