@@ -6,7 +6,7 @@ from settings.Settings import permissions_settings
 from fastapi import HTTPException
 
 
-# TODO: add seen and delivery mechanism on direct messaging
+# TODO: add delivery mechanism on direct messaging
 
 class ChatActions:
     class Public:

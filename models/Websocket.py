@@ -8,6 +8,7 @@ class HeadersModel(BaseModel):
 
 class PacketTypes(BaseModel):
     direct_message: str = "direct_message"
+    group_message: str = 'gp_msg'
 
 
 packets_types = PacketTypes()
