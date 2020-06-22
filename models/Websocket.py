@@ -33,17 +33,11 @@ class ServerMessagePacket(BaseModel):
     content: Any
 
 
-# class MessagePacketForEmitModel(BaseModel):
-#     id: str = None
-#     sender: str
-#     packet_type: str
-#     content: DirectMessagePacket
-#
-#
-# class DirectMessageEmitModel(BaseModel):
-#     sender: str
-#     packet_type: str
-#     content: DirectMessagePacket
+class GroupMessagePacket(BaseModel):
+    token: str
+    group_id: str
+    content_type: str
+    content: str
 
 
 class SeenPacket(BaseModel):

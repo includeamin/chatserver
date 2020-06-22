@@ -55,7 +55,20 @@ class DirectMessagePacket(BaseModel):
     receiver: str
     message: MessageInPacketModel
 
-# class MessagePacket(BaseModel):
-#     token: str
-#     packet_type: str
-#     content: DirectMessagePacket
+
+class SubscribeModel(BaseModel):
+    user_id: str
+    type: str = 'user'
+
+
+class GroupDatabaseModel(BaseModel):
+    owner: str
+    create_at: datetime = datetime.now()
+    subscribes: List[SubscribeModel]
+
+
+class GroupMessages(BaseModel):
+    sender: str
+    content_type: str
+    content: Any
+    create_at: datetime = datetime.now()

@@ -23,6 +23,11 @@ class EventNames(BaseSettings):
     DIRECT_MESSAGE: str = "DIRECT_MESSAGE"
 
 
+class Permissions(BaseSettings):
+    USER_CREATE_GROUP: bool = True
+
+
 database_settings = DATABASE()
 global_settings = Settings()
 events_names = EventNames()
+permissions_settings = Permissions()
