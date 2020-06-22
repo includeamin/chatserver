@@ -5,7 +5,6 @@ from WebSocket.utils import get_headers
 from models.Websocket import *
 from classes.Chat import ChatActions, ObjectId
 from settings.Settings import events_names
-from models.Chat import ChatHistoryModel
 
 
 class ChatNameSpace(AsyncNamespace):
@@ -23,15 +22,17 @@ class ChatNameSpace(AsyncNamespace):
         packet = ClientMessagePacket(**args[0])
         user_id = JWT.validate(packet.token)
         if packet.packet_type == packets_types.direct_message:
-            server_packet = ServerMessagePacket(id=str(ObjectId()), sender=user_id, receiver=packet.receiver,
-                                                content_type=packet.content_type, content=packet.content,
-                                                packet_type=packet.packet_type)
-
-            await self.emit(events_names.DIRECT_MESSAGE, server_packet.dict(), room=server_packet.receiver)
-            await ChatActions.add_direct_message(server_packet)
+            await self.direct_handler(packet, user_id)
         else:
             await self.emit(events_names.SERVER_RESPONSE,
                             ServerResponse(message="at the moment, only direct message supported", code=1))
+
+    async def direct_handler(self, packet, user_id):
+        server_packet = ServerMessagePacket(id=str(ObjectId()), sender=user_id, receiver=packet.receiver,
+                                            content_type=packet.content_type, content=packet.content,
+                                            packet_type=packet.packet_type)
+        await self.emit(events_names.DIRECT_MESSAGE, server_packet.dict(), room=server_packet.receiver)
+        await ChatActions.add_direct_message(server_packet)
 
     def on_delivered(self):
         pass
