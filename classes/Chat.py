@@ -1,20 +1,17 @@
 from models.Chat import *
 from database.MONGO import direct_chat_collection
-from models.Websocket import MessagePacket
+from models.Websocket import ServerMessagePacket
+from models.Chat import ChatHistoryModel
 
 
 class ChatActions:
     @staticmethod
-    async def add_direct_message(packet: MessagePacket):
-        direct_chat_collection.update_one({"sender": packet.token, "receiver": packet.content.receiver},
-                                          {"$addToSet": {
-                                              "messages": MessageListModel(**packet.content.message.dict()).dict()
-                                          }}, upsert=True)
-        # todo : check updated or not
+    async def add_direct_message(packet: ServerMessagePacket):
+        chat_history = ChatHistoryModel(**packet.dict()).dict()
+        await ChatActions.id_fix(chat_history)
+        direct_chat_collection.insert_one(chat_history)
 
     @staticmethod
-    def process_packet(packet: MessagePacket):
-        if packet.packet_type == 'direct_message':
-            return ChatActions.add_direct_message(packet)
-        else:
-            return 'not support at moment'
+    async def id_fix(chat_history):
+        chat_history["_id"] = ObjectId(chat_history['id'])
+        chat_history.pop("id")

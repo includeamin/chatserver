@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Any
-from models.Chat import DirectMessagePacket
 
 
 class HeadersModel(BaseModel):
@@ -12,16 +11,43 @@ class ServerResponse(BaseModel):
     code: int
 
 
-class MessagePacket(BaseModel):
+# class MessagePacket(BaseModel):
+#     token: str
+#     packet_type: str
+#     content: DirectMessagePacket
+
+class ClientMessagePacket(BaseModel):
     token: str
     packet_type: str
-    content: DirectMessagePacket
+    receiver: str
+    content_type: str
+    content: Any
 
 
-class DirectMessageEmitModel(BaseModel):
+class ServerMessagePacket(BaseModel):
+    id: str
     sender: str
     packet_type: str
-    content: DirectMessagePacket
+    receiver: str
+    content_type: str
+    content: Any
+
+
+# class MessagePacketForEmitModel(BaseModel):
+#     id: str = None
+#     sender: str
+#     packet_type: str
+#     content: DirectMessagePacket
+#
+#
+# class DirectMessageEmitModel(BaseModel):
+#     sender: str
+#     packet_type: str
+#     content: DirectMessagePacket
+
+
+class SeenPacket(BaseModel):
+    pass
 
 
 class PacketTypes(BaseModel):

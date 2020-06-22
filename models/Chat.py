@@ -1,6 +1,8 @@
-from pydantic import BaseModel
+from bson import ObjectId
+from pydantic import BaseModel, Field
 from typing import List, Any
 from datetime import datetime
+from models.Websocket import ServerMessagePacket
 
 statuses = [
     "sent"
@@ -34,7 +36,7 @@ class MessageListModel(BaseModel):
     create_at: datetime = datetime.now()
 
 
-class DirectCMessageModel(BaseModel):
+class DirectMessageModel(BaseModel):
     sender: str
     receiver: str
     messages: List[MessageListModel]
@@ -45,10 +47,13 @@ class MessageInPacketModel(BaseModel):
     content: str
 
 
+class ChatHistoryModel(ServerMessagePacket):
+    status: str = 'sent'
+
+
 class DirectMessagePacket(BaseModel):
     receiver: str
     message: MessageInPacketModel
-
 
 # class MessagePacket(BaseModel):
 #     token: str

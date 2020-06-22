@@ -19,19 +19,16 @@ def direct_message(data):
 
 message_pack = {
     'token': token,
+    "receiver": "",
     'packet_type': 'direct_message',
-    'content': {
-        'receiver': '',
-        'message': {
-            'content_type': 'txt',
-            "content": ''
-        }
-    }
+    'content_type': 'txt',
+    "content": ''
+
 }
 
 while True:
     message = input("MESSAGE: ")
     user_id = input("USER_ID: ")
-    message_pack["content"]["receiver"] = user_id
-    message_pack["content"]["message"]["content"] = message
+    message_pack["receiver"] = user_id
+    message_pack["content"] = message
     sio.emit("DIRECT_MESSAGE", message_pack, namespace="/chat")

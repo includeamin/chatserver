@@ -3,8 +3,9 @@ from logging import info
 from authentication.JWT import JWT
 from WebSocket.utils import get_headers
 from models.Websocket import *
-from classes.Chat import ChatActions, DirectCMessageModel
+from classes.Chat import ChatActions, ObjectId
 from settings.Settings import events_names
+from models.Chat import ChatHistoryModel
 
 
 class ChatNameSpace(AsyncNamespace):
@@ -19,12 +20,15 @@ class ChatNameSpace(AsyncNamespace):
         info(f"user disconnected")
 
     async def on_DIRECT_MESSAGE(self, data, *args, **kwargs):
-        packet = MessagePacket(**args[0])
+        packet = ClientMessagePacket(**args[0])
         user_id = JWT.validate(packet.token)
         if packet.packet_type == packets_types.direct_message:
-            data = DirectMessageEmitModel(sender=user_id, content=packet.content, packet_type=packet.packet_type)
-            await self.emit(events_names.DIRECT_MESSAGE, data.dict(), room=packet.content.receiver)
-            await ChatActions.add_direct_message(packet)
+            server_packet = ServerMessagePacket(id=str(ObjectId()), sender=user_id, receiver=packet.receiver,
+                                                content_type=packet.content_type, content=packet.content,
+                                                packet_type=packet.packet_type)
+
+            await self.emit(events_names.DIRECT_MESSAGE, server_packet.dict(), room=server_packet.receiver)
+            await ChatActions.add_direct_message(server_packet)
         else:
             await self.emit(events_names.SERVER_RESPONSE,
                             ServerResponse(message="at the moment, only direct message supported", code=1))
