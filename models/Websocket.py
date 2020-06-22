@@ -6,6 +6,13 @@ class HeadersModel(BaseModel):
     HTTP_TOKEN: str
 
 
+class PacketTypes(BaseModel):
+    direct_message: str = "direct_message"
+
+
+packets_types = PacketTypes()
+
+
 class ServerResponse(BaseModel):
     message: Any
     code: int
@@ -41,11 +48,9 @@ class GroupMessagePacket(BaseModel):
 
 
 class SeenPacket(BaseModel):
-    pass
+    token: str
+    sender: str
 
 
-class PacketTypes(BaseModel):
-    direct_message: str = "direct_message"
-
-
-packets_types = PacketTypes()
+class SeenEmitPackage(BaseModel):
+    receiver: str

@@ -62,13 +62,19 @@ class SubscribeModel(BaseModel):
 
 
 class GroupDatabaseModel(BaseModel):
+    name: str
     owner: str
     create_at: datetime = datetime.now()
-    subscribes: List[SubscribeModel]
+    subscribes: List[SubscribeModel] = []
+
+
+class CreateGroupBodyModel(BaseModel):
+    name: str
 
 
 class GroupMessages(BaseModel):
     sender: str
     content_type: str
     content: Any
+    reply_to: str
     create_at: datetime = datetime.now()

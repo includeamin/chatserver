@@ -18,7 +18,7 @@ class ChatNameSpace(AsyncNamespace):
     def on_disconnect(self, environ, *args, **kwargs):
         info(f"user disconnected")
 
-    async def on_DIRECT_MESSAGE(self, data, *args, **kwargs):
+    async def on_direct_message(self, data, *args, **kwargs):
         packet = ClientMessagePacket(**args[0])
         user_id = JWT.validate(packet.token)
         if packet.packet_type == packets_types.direct_message:
@@ -27,15 +27,23 @@ class ChatNameSpace(AsyncNamespace):
             await self.emit(events_names.SERVER_RESPONSE,
                             ServerResponse(message="at the moment, only direct message supported", code=1))
 
+    async def on_seen(self, data, *args, **kwargs):
+        # testing
+        packet = SeenPacket(**args[0])
+        user_id = JWT.validate(packet.token)
+        packet.token = user_id
+        await self.emit("msg_seen", {"msg": 'seen'}, room=packet.sender)
+        await ChatActions.seen(packet)
+
+    async def on_gp_join(self, data, *args, **kwargs):
+        pass
+
+    async def on_gp_msg(self, data, *args, **kwargs):
+        pass
+
     async def direct_handler(self, packet, user_id):
         server_packet = ServerMessagePacket(id=str(ObjectId()), sender=user_id, receiver=packet.receiver,
                                             content_type=packet.content_type, content=packet.content,
                                             packet_type=packet.packet_type)
         await self.emit(events_names.DIRECT_MESSAGE, server_packet.dict(), room=server_packet.receiver)
         await ChatActions.add_direct_message(server_packet)
-
-    def on_delivered(self):
-        pass
-
-    def on_seen(self):
-        pass

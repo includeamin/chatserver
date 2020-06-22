@@ -19,8 +19,8 @@ class DATABASE(BaseSettings):
 
 
 class EventNames(BaseSettings):
-    SERVER_RESPONSE: str = "SERVER_RESPONSE"
-    DIRECT_MESSAGE: str = "DIRECT_MESSAGE"
+    SERVER_RESPONSE: str = "server_response"
+    DIRECT_MESSAGE: str = "direct_message"
 
 
 class Permissions(BaseSettings):

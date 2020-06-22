@@ -1,6 +1,6 @@
 from models.Chat import *
 from database.MONGO import direct_chat_collection
-from models.Websocket import ServerMessagePacket
+from models.Websocket import ServerMessagePacket, SeenPacket
 from models.Chat import ChatHistoryModel
 from settings.Settings import permissions_settings
 from fastapi import HTTPException
@@ -31,3 +31,10 @@ class ChatActions:
     async def id_fix(chat_history):
         chat_history["_id"] = ObjectId(chat_history['id'])
         chat_history.pop("id")
+
+    @staticmethod
+    async def seen(packet: SeenPacket):
+        direct_chat_collection.update_many(
+            {"$or": [{"$and": [{"sender": packet.token}, {"receiver": packet.sender}]},
+                     {"$and": [{"sender": packet.sender}, {"receiver": packet.token}]}], "status": {"$ne": "seen"}},
+            {"$set": {"status": 'seen'}})

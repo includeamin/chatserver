@@ -7,14 +7,22 @@ sio.connect(
     f'{base_url}', namespaces="/chat", headers={"token": token})
 
 
-@sio.on("SERVER_RESPONSE", namespace="/chat")
+@sio.on("server_response", namespace="/chat")
 def server_response(data):
     print(data)
 
 
-@sio.on("DIRECT_MESSAGE", namespace="/chat")
+@sio.on("direct_message", namespace="/chat")
 def direct_message(data):
     print(data)
+    seen_package["sender"] = data['sender']
+    seen_package["token"] = token
+    sio.emit("seen", seen_package, namespace="/chat")
+
+
+@sio.on("msg_seen", namespace="/chat")
+def seen_msg(data):
+    print("seen", data)
 
 
 message_pack = {
@@ -26,9 +34,13 @@ message_pack = {
 
 }
 
+seen_package = {
+    "token": "",
+    "sender": ""
+}
 while True:
     message = input("MESSAGE: ")
     user_id = input("USER_ID: ")
     message_pack["receiver"] = user_id
     message_pack["content"] = message
-    sio.emit("DIRECT_MESSAGE", message_pack, namespace="/chat")
+    sio.emit("direct_message", message_pack, namespace="/chat")
