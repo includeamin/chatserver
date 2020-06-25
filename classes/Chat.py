@@ -10,10 +10,7 @@ from fastapi import HTTPException
 
 class ChatActions:
     class Public:
-        @staticmethod
-        async def create_group():
-            if not permissions_settings.USER_CREATE_GROUP:
-                raise HTTPException(detail="Permission Denied", status_code=406)
+        pass
 
     class Shared:
         pass

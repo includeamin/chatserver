@@ -28,7 +28,6 @@ class ChatNameSpace(AsyncNamespace):
                             ServerResponse(message="at the moment, only direct message supported", code=1))
 
     async def on_seen(self, data, *args, **kwargs):
-        # testing
         packet = SeenPacket(**args[0])
         user_id = JWT.validate(packet.token)
         packet.token = user_id

@@ -4,6 +4,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     AUTH: bool = True
     JWT_TOKEN: str = 'simple_key'
+    MAX_PAGE: int = 15
 
 
 class DATABASE(BaseSettings):
@@ -16,6 +17,11 @@ class DATABASE(BaseSettings):
     DIRECT_CHAT_COLLECTION: str = 'directs'
     CHANNEL_CHAT_COLLECTION: str = 'channels'
     SIGNALING_COLLECTION: str = 'signaling'
+
+
+class Bridges(BaseSettings):
+    UserService: str = 'http://localhost:3002'
+    GET_USER_INFO_URL: str = f'{UserService}/system/user/user_info'
 
 
 class EventNames(BaseSettings):
@@ -31,3 +37,4 @@ database_settings = DATABASE()
 global_settings = Settings()
 events_names = EventNames()
 permissions_settings = Permissions()
+bridge_settings = Bridges()
