@@ -30,6 +30,8 @@ class EventNames(BaseSettings):
     DIRECT_MESSAGE: str = "direct_message"
     GROUP_MESSAGE: str = 'group_message'
     LIVE_CLASS_GROUP_MESSAGE: str = 'live_class_group_message'
+    CHANNEL_MESSAGE: str = 'channel_message'
+    FILE_SHARE: str = 'file_share'
 
 
 class Permissions(BaseSettings):
