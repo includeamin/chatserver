@@ -34,9 +34,6 @@ class ChatNameSpace(AsyncNamespace):
         await self.emit("msg_seen", {"msg": 'seen'}, room=packet.sender)
         await ChatActions.seen(packet)
 
-    async def on_gp_join(self, data, *args, **kwargs):
-        pass
-
     async def on_gp_msg(self, data, *args, **kwargs):
         pass
 
