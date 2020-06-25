@@ -106,6 +106,12 @@ class AdminCreateGroupBodyModel(BaseModel):
     create_for: CreateForModel = None
 
 
+class AdminSubscribeBodyModel(BaseModel):
+    group_id: str
+    user_id: str
+    user_name: str
+
+
 class AdminCreateGroupResponseModel(BaseModel):
     group_id: str
 

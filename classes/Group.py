@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from models.Chat import GroupDatabaseModel, AdminCreateGroupResponseModel, AdminCreateGroupBodyModel, CreateForModel, \
     SubscribeModel, GetUserSubscribes
 from utils.Tools import Tools
+from models.GlobalModel import GlobalResult
 
 
 class Group:
@@ -16,6 +17,11 @@ class Group:
             result = await Group.Shared.create_group(data.name, user_id=user_id, create_by="admin",
                                                      create_for=data.create_for)
             return AdminCreateGroupResponseModel(group_id=result)
+
+        @staticmethod
+        async def subscribe(gp_id: str, user_id: str, user_name: str, action: str):
+            await Group.Shared.subscribe(gp_id, user_id, user_name, action)
+            return GlobalResult(message='done')
 
     class Shared:
         @staticmethod

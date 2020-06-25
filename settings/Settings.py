@@ -22,6 +22,7 @@ class DATABASE(BaseSettings):
 class Bridges(BaseSettings):
     UserService: str = 'http://localhost:3002'
     GET_USER_INFO_URL: str = f'{UserService}/system/user/user_info'
+    CAS_SERVICE: str = 'http://localhost:3001'
 
 
 class EventNames(BaseSettings):
