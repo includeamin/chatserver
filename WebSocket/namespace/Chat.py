@@ -9,6 +9,7 @@ from settings.Settings import events_names
 
 class ChatNameSpace(AsyncNamespace):
     async def on_connect(self, environ, *args, **kwargs):
+        # todo: subscribe to groups and channels
         headers = get_headers(args)
         user_id = JWT.validate(headers.HTTP_TOKEN)
         session_id = environ

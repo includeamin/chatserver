@@ -28,6 +28,8 @@ class Bridges(BaseSettings):
 class EventNames(BaseSettings):
     SERVER_RESPONSE: str = "server_response"
     DIRECT_MESSAGE: str = "direct_message"
+    GROUP_MESSAGE: str = 'group_message'
+    LIVE_CLASS_GROUP_MESSAGE: str = 'live_class_group_message'
 
 
 class Permissions(BaseSettings):
